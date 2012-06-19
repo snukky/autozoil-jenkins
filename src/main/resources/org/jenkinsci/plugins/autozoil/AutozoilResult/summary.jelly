@@ -1,0 +1,47 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:g="/jelly/autozoil">
+    <st:header name="Content-Type" value="text/html;charset=UTF-8"/>
+    <table class="pane sortable" id="files">
+        <tr>
+            <td class="pane-header">Filename</td>
+            <td class="pane-header" style="width:2em">#</td>
+            <td class="pane-header" style="width:2em">Autozoil ID</td>
+            <td class="pane-header" style="width:2em">Type</td>
+            <td class="pane-header" style="width:35%">Message</td>
+            <td class="pane-header" style="width:35%">Correction</td>
+        </tr>
+        <tbody>
+
+            <j:forEach var="elt" items="${it.autozoilSourceContainer.internalMap.values()}">
+                <j:set var="autozoilfile" value="${elt.autozoilFile}"/>
+                <tr>
+                    <td class="pane">
+                        <j:if test="${elt.isSourceIgnored()}">
+                            ${autozoilfile.fileName}
+                        </j:if>
+                        <j:if test="${not elt.isSourceIgnored()}">
+                            <a href="source.${autozoilfile.key}">${autozoilfile.fileName}</a>
+                        </j:if>
+
+
+                    </td>
+                    <td class="pane">
+                        <j:if
+                                test="${elt.isSourceIgnored()}">
+                            ${autozoilfile.lineNumber}
+                        </j:if>
+                        <j:if test="${not elt.isSourceIgnored()}">
+                            <a href="source.${autozoilfile.key}#${autozoilfile.lineNumber}">${autozoilfile.lineNumber}
+                            </a>
+                        </j:if>
+                    </td>
+                    <g:format value="${autozoilfile.autoZoilId}" type="${autozoilfile.type}"/>
+                    <g:format value="${autozoilfile.type}" type="${autozoilfile.type}"/>
+                    <g:format value="${autozoilfile.message}" type="${autozoilfile.type}"/>
+                    <g:format value="${autozoilfile.correction}" type="${autozoilfile.type}"/>
+                </tr>
+            </j:forEach>
+
+
+        </tbody>
+    </table>
+</j:jelly>

@@ -1,0 +1,22 @@
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form" xmlns:u="/util">
+
+    <j:set var="config" value="${instance.autozoilConfig}"/>
+    <j:if test="${config == null}">
+        <j:set var="config" value="${descriptor.config}"/>
+    </j:if>
+
+    <f:entry title="${%Autozoil report XMLs}"
+             description="${%description.pattern('http://ant.apache.org/manual/Types/fileset.html')}">
+        <f:textbox name="autozoil.pattern" value="${config.pattern}"/>
+    </f:entry>
+
+    <f:entry>
+        <f:checkbox name="autozoil.ignoreBlankFiles" checked="${config.ignoreBlankFiles}"/>
+        <label>${%Ignore blank files}</label>
+    </f:entry>
+
+    <f:advanced>
+        <u:thresholds id="autozoil"/>
+    </f:advanced>
+
+</j:jelly>

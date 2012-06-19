@@ -1,0 +1,199 @@
+<!--
+  Section header
+
+  <%@attribute name="id" required="true" %>
+-->
+
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:f="/lib/form">
+
+    <j:set var="config" value="${instance.autozoilConfig}"/>
+    <j:if test="${config == null}">
+        <j:set var="config" value="${descriptor.config}"/>
+    </j:if>
+
+
+    <f:entry title="${%Build status}" description="${%description.status}">
+        <table>
+            <thead>
+                <tr>
+                    <td></td>
+                    <td width="80">
+                        <img src="${rootURL}/images/16x16/health-80plus.gif" alt="100%"
+                             title="${%description.healthy}"/>
+                    </td>
+                    <td width="80">
+                        <img src="${rootURL}/images/16x16/health-00to19.gif" alt="0%"
+                             title="${%description.unhealthy}"/>
+                    </td>
+                    <td width="80">
+                        <img src="${rootURL}/images/16x16/yellow.gif" alt="100%" title="${%description.threshold}"/>
+                        ${%Total}
+                    </td>
+                    <td width="80">
+                        <img src="${rootURL}/images/16x16/yellow.gif" alt="100%" title="${%description.newThreshold}"/>
+                        ${%New}
+                    </td>
+                    <td width="80">
+                        <img src="${rootURL}/images/16x16/red.gif" alt="100%" title="${%description.failureThreshold}"/>
+                        ${%Total}
+                    </td>
+                    <td width="80">
+                        <img src="${rootURL}/images/16x16/red.gif" alt="100%"
+                             title="${%description.newFailureThreshold}"/>
+                        ${%New}
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="vertical-align:middle">${%Thresholds:}</td>
+                    <td>
+                        <f:textbox name="autozoil.config.configTypeEvaluation.healthy"
+                                   value="${config.configTypeEvaluation.healthy}"/>
+                    </td>
+                    <td>
+                        <f:textbox name="autozoil.config.configTypeEvaluation.unHealthy"
+                                   value="${config.configTypeEvaluation.unHealthy}"/>
+                    </td>
+                    <td>
+                        <f:textbox name="autozoil.config.configTypeEvaluation.threshold"
+                                   value="${config.configTypeEvaluation.threshold}"/>
+                    </td>
+                    <td>
+                        <f:textbox name="autozoil.config.configTypeEvaluation.newThreshold"
+                                   value="${config.configTypeEvaluation.newThreshold}"/>
+                    </td>
+                    <td>
+                        <f:textbox name="autozoil.config.configTypeEvaluation.failureThreshold"
+                                   value="${config.configTypeEvaluation.failureThreshold}"/>
+                    </td>
+                    <td>
+                        <f:textbox name="autozoil.config.configTypeEvaluation.newFailureThreshold"
+                                   value="${config.configTypeEvaluation.newFailureThreshold}"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </f:entry>
+
+
+    <f:entry title="${%type.evaluation}" description="${%description.limit}">
+
+        <f:checkbox name="${id}.config.configTypeEvaluation.typeError"
+                    checked="${config.configTypeEvaluation.typeError}" id="thresholdLimit.typeError"/>
+        <st:nbsp/>
+        <label for="thresholdLimit.typeError">${%Latex}</label>
+        <st:nbsp/>
+
+        <f:checkbox name="${id}.config.configTypeEvaluation.typeSpell"
+                    checked="${config.configTypeEvaluation.typeSpell}" id="thresholdLimit.typeSpell"/>
+        <st:nbsp/>
+        <label for="thresholdLimit.typeSpell">${%Spell}</label>
+        <st:nbsp/>
+
+        <f:checkbox name="${id}.config.configTypeEvaluation.typeGrammar"
+                    checked="${config.configTypeEvaluation.typeGrammar}" id="thresholdLimit.typeGrammar"/>
+        <st:nbsp/>
+        <label for="thresholdLimit.typeGrammar">${%Grammar}</label>
+        <st:nbsp/>
+
+        <f:checkbox name="${id}.config.configTypeEvaluation.typeTypo"
+                    checked="${config.configTypeEvaluation.typeTypo}"
+                    id="thresholdLimit.typeTypo"/>
+        <st:nbsp/>
+        <label for="thresholdLimit.typeTypo">${%Typo}</label>
+        <st:nbsp/>
+
+        <f:checkbox name="${id}.config.configTypeEvaluation.typeSuppressor"
+                    checked="${config.configTypeEvaluation.typeSuppressor}"
+                    id="thresholdLimit.typeSuppressor"/>
+        <st:nbsp/>
+        <label for="thresholdLimit.typeSuppressor">${%Suppressor}</label>
+        <st:nbsp/>
+
+    </f:entry>
+
+
+    <f:advanced>
+
+        <f:entry title="${%graph.configuration}" description="${%graph.description}">
+
+            <table>
+                <tr>
+                    <td>
+                        <label for="configGraph.xSize">${%Chart Width}</label>
+                        <f:textbox name="${id}.config.configGraph.xSize" value="${config.configGraph.xSize}"
+                                   id="configGraph.xSize"/>
+                    </td>
+                    <td>
+                        <label for="configGraph.xSize">${%Chart Height}</label>
+                        <f:textbox name="${id}.config.configGraph.ySize" value="${config.configGraph.ySize}"
+                                   id="configGraph.ySize"/>
+                    </td>
+                    <td colspan="3">
+                        <st:nbsp/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <f:checkbox name="${id}.config.configGraph.displayAllErrors"
+                                    checked="${config.configGraph.displayAllErrors}" id="configGraph.displayAllErrors"
+                                    default="${true}"/>
+                        <st:nbsp/>
+                        <label for="configGraph.displayAllErrors">${%Display All errors}</label>
+                        <st:nbsp/>
+                    </td>
+
+                    <td>
+                        <f:checkbox name="${id}.config.configGraph.displayErrorType"
+                                    checked="${config.configGraph.displayErrorType}"
+                                    id="configGraph.displayErrorType" default="${true}"/>
+                        <st:nbsp/>
+                        <label for="configGraph.displayErrorType">${%Display latex}</label>
+                        <st:nbsp/>
+                    </td>
+
+                    <td>
+                        <f:checkbox name="${id}.config.configGraph.displaySpellType"
+                                    checked="${config.configGraph.displaySpellType}"
+                                    id="configGrah.displaySpellType" default="${true}"/>
+                        <st:nbsp/>
+                        <label for="configGraph.displaySpellType">${%Display spells}</label>
+                        <st:nbsp/>
+                    </td>
+
+                    <td>
+                        <f:checkbox name="${id}.config.configGraph.displayGrammarType"
+                                    checked="${config.configGraph.displayGrammarType}"
+                                    id="configGraph.displayGrammarType" default="${true}"/>
+                        <st:nbsp/>
+                        <label for="configGraph.displayGrammarType">${%Display grammars}</label>
+                        <st:nbsp/>
+                    </td>
+
+                    <td>
+                        <f:checkbox name="${id}.config.configGraph.displayTypoType"
+                                    checked="${config.configGraph.displayTypoType}"
+                                    id="configGraph.displayTypoType" default="${true}"/>
+                        <st:nbsp/>
+                        <label for="configGraph.displayTypoType">${%Display typos}</label>
+                        <st:nbsp/>
+                    </td>
+
+                    <td>
+                        <f:checkbox name="${id}.config.configGraph.displaySuppressorType"
+                                    checked="${config.configGraph.displaySuppressorType}"
+                                    id="configGraph.displaySuppressorType" default="${true}"/>
+                        <st:nbsp/>
+                        <label for="configGraph.displaySuppressorType">${%Display suppressor}</label>
+                        <st:nbsp/>
+                    </td>
+
+                </tr>
+            </table>
+
+        </f:entry>
+
+    </f:advanced>
+
+</j:jelly>

@@ -1,0 +1,48 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:l="/lib/layout">
+    <l:layout norefresh="true">
+        <st:include it="${it.owner}" page="sidepanel.jelly"/>
+        <l:main-panel>
+            <h1>Autozoil Result</h1>
+
+            <h2>Errors Trend</h2>
+            <table class="pane sortable">
+                <tr>
+                    <td class="pane-header">All errors</td>
+                    <td class="pane-header" style="width:2em">New errors</td>
+                </tr>
+                <tbody>
+                    <tr>
+                        <td class="pane">${it.report.numberTotal}</td>
+                        <td class="pane">${it.numberNewErrorsFromPreviousBuild}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Summary</h2>
+            <table class="pane sortable">
+                <tr>
+                    <td class="pane-header">Total</td>
+                    <td class="pane-header" style="width:2em">Type 'latex'</td>
+                    <td class="pane-header" style="width:2em">Type 'spell'</td>
+                    <td class="pane-header" style="width:2em">Type 'grammar'</td>
+                    <td class="pane-header" style="width:2em">Type 'typo'</td>
+                    <td class="pane-header" style="width:2em">Type 'suppressor'</td>
+                    <td class="pane-header" style="width:2em">No category</td>
+                </tr>
+                <tbody>
+                    <tr>
+                        <td class="pane">${it.report.numberTotal}</td>
+                        <td class="pane">${it.report.numberErrorType}</td>
+                        <td class="pane">${it.report.numberSpellType}</td>
+                        <td class="pane">${it.report.numberGrammarType}</td>
+                        <td class="pane">${it.report.numberTypoType}</td>
+                        <td class="pane">${it.report.numberSuppressorType}</td>
+                        <td class="pane">${it.report.numberNoCategoryType}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <st:include page="/tabview/main.jelly"/>
+        </l:main-panel>
+    </l:layout>
+</j:jelly>
