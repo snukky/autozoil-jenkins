@@ -46,6 +46,8 @@ public class AutozoilFile implements ModelObject, Serializable {
 
     private String message;
 
+    private String error;
+
     private String correction;
 
     @Exported
@@ -82,6 +84,15 @@ public class AutozoilFile implements ModelObject, Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Exported
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 
     @Exported

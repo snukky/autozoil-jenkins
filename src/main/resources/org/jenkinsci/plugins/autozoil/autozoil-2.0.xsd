@@ -19,6 +19,7 @@
             <xs:attribute name="id" type="xs:string" use="required"/>
             <xs:attribute name="type" type="xs:string" use="required"/>
             <xs:attribute name="msg" type="xs:string" use="required"/>
+            <xs:attribute name="error" type="xs:string" use="required"/>
             <xs:attribute name="correction" type="xs:string" use="optional"/>
         </xs:complexType>
     </xs:element>

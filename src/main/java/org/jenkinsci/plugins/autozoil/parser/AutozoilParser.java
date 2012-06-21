@@ -47,76 +47,11 @@ public class AutozoilParser implements Serializable {
             }
             report = getReportVersion2(results);
         } catch (JAXBException jxe) {
-            //try {
-            //    jc.set(JAXBContext.newInstance(org.jenkinsci.plugins.autozoil.model.Error.class, com.thalesgroup.jenkinsci.plugins.autozoil.model.Results.class));
-            //    Unmarshaller unmarshaller = jc.get().createUnmarshaller();
-            //    org.jenkinsci.plugins.autozoil.model.Results results = (com.thalesgroup.jenkinsci.plugins.autozoil.model.Results) unmarshaller.unmarshal(file);
-            //    report = getReportVersion1(results);
-            //} catch (JAXBException jxe1) {
-                throw new IOException(jxe);
-            //}
-
+            throw new IOException(jxe);
         }
         return report;
     }
-/*
-    private AutozoilReport getReportVersion1(com.thalesgroup.jenkinsci.plugins.autozoil.model.Results results) {
 
-        AutozoilReport autoZoilReport = new AutozoilReport();
-        List<AutozoilFile> allErrors = new ArrayList<AutozoilFile>();
-        List<AutozoilFile> errorTypeList = new ArrayList<AutozoilFile>();
-        List<AutozoilFile> spellTypeList = new ArrayList<AutozoilFile>();
-        List<AutozoilFile> grammarTypeList = new ArrayList<AutozoilFile>();
-        List<AutozoilFile> typoTypeList = new ArrayList<AutozoilFile>();
-        List<AutozoilFile> suppressorTypeList = new ArrayList<AutozoilFile>();
-        List<AutozoilFile> noCategoryTypeList = new ArrayList<AutozoilFile>();
-
-        AutozoilFile autozoilFile;
-        for (int i = 0; i < results.getError().size(); i++) {
-            com.thalesgroup.jenkinsci.plugins.autozoil.model.Error error = results.getError().get(i);
-            autozoilFile = new AutozoilFile();
-
-            autozoilFile.setFileName(error.getFile());
-
-            //line can be optional
-            String lineAtr;
-            if ((lineAtr = error.getLine()) != null) {
-                autozoilFile.setLineNumber(Integer.parseInt(lineAtr));
-            }
-
-            autozoilFile.setAutoZoilId(error.getId());
-            autozoilFile.setType(error.getType());
-            autozoilFile.setMessage(error.getMsg());
-            autozoilFile.setCorrection(error.getCorrection());
-
-            if ("spell".equals(autozoilFile.getType())) {
-                spellTypeList.add(autozoilFile);
-            } else if ("grammar".equals(autozoilFile.getType())) {
-                grammarTypeList.add(autozoilFile);
-            } else if ("typo".equals(autozoilFile.getType())) {
-                typoTypeList.add(autozoilFile);
-            } else if ("latex".equals(autozoilFile.getType())) {
-                errorTypeList.add(autozoilFile);
-            } else if ("suppressor".equals(autozoilFile.getType())) {
-                suppressorTypeList.add(autozoilFile);
-            } else {
-                noCategoryTypeList.add(autozoilFile);
-            }
-            allErrors.add(autozoilFile);
-        }
-
-        autoZoilReport.setAllErrors(allErrors);
-        autoZoilReport.setErrorTypeList(errorTypeList);
-        autoZoilReport.setSuppressorTypeList(suppressorTypeList);
-        autoZoilReport.setNoCategoryTypeList(noCategoryTypeList);
-        autoZoilReport.setTypoTypeList(typoTypeList);
-        autoZoilReport.setGrammarTypeList(grammarTypeList);
-        autoZoilReport.setSpellTypeList(spellTypeList);
-
-
-        return autoZoilReport;
-    }
-*/
     private AutozoilReport getReportVersion2(Results results) {
 
         AutozoilReport autoZoilReport = new AutozoilReport();
@@ -140,6 +75,7 @@ public class AutozoilParser implements Serializable {
                 autozoilFile.setAutoZoilId(error.getId());
                 autozoilFile.setType(error.getType());
                 autozoilFile.setMessage(error.getMsg());
+                autozoilFile.setError(error.getError());
                 autozoilFile.setCorrection(error.getCorrection());
 
                 if ("spell".equals(autozoilFile.getType())) {
