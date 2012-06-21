@@ -24,6 +24,26 @@ public class AutozoilParserTest {
     }
 
     @Test
+    public void nullFile() throws Exception {
+        try {
+            autozoilParser.parse(null);
+            Assert.fail("null parameter is not allowed.");
+        } catch (IllegalArgumentException iea) {
+            Assert.assertTrue(true);
+        }
+    }
+
+    @Test
+    public void nonExistFile() throws Exception {
+        try {
+            autozoilParser.parse(new File("nonExistFile"));
+            Assert.fail("A valid file is mandatory.");
+        } catch (IllegalArgumentException iea) {
+            Assert.assertTrue(true);
+        }
+    }
+
+    @Test
     public void testautozoil1Version2() throws Exception {
         processAutozoil("version2/testAutozoil.xml", 16, 2, 0, 1, 13, 0, 0);
     }
