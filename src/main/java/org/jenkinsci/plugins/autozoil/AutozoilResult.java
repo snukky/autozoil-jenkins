@@ -14,6 +14,7 @@ import org.kohsuke.stapler.export.Exported;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Gregory Boissinot
@@ -88,12 +89,15 @@ public class AutozoilResult implements Serializable {
             }
 
             Map<Integer, AutozoilWorkspaceFile> agregateMap = autozoilSourceContainer.getInternalMap();
+            Set<Integer> allLineNumbersToHighlights = autozoilSourceContainer.getAllLineNumbers();
+
             if (agregateMap != null) {
                 AutozoilWorkspaceFile vAutozoilWorkspaceFile = agregateMap.get(Integer.parseInt(StringUtils.substringAfter(link, "source.")));
                 if (vAutozoilWorkspaceFile == null) {
                     throw new IllegalArgumentException("Error for retrieving the source file with link:" + link);
                 }
-                return new AutozoilSource(owner, vAutozoilWorkspaceFile);
+
+                return new AutozoilSource(owner, vAutozoilWorkspaceFile, allLineNumbersToHighlights);
             }
         }
         return null;
@@ -196,7 +200,6 @@ public class AutozoilResult implements Serializable {
         int nbErrors = 0;
         int nbPreviousError = 0;
         AutozoilResult previousResult = this.getPreviousResult();
-
 
         //Error
         if (cppecheckConfig.getConfigTypeEvaluation().isTypeError()) {

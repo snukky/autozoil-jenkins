@@ -30,6 +30,8 @@ import hudson.model.BuildListener;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Map;
 
 public class AutozoilSourceContainer {
