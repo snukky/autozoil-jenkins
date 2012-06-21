@@ -3,97 +3,97 @@
     <autozoil version="0.01"/>
     <errors>
         <error id="typo-1" type="typo"
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Typo Message in Test XML"
                correction="Typo Correction in Test XML">
             <location file="test.tex" line="21"/>
         </error>
         <error id="typo-2" type="typo"
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Typo Message in Test XML"
                correction="Typo Correction in Test XML">
             <location file="test.tex" line="22"/>
         </error>
         <error id="typo-3" type="typo"
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Typo Message in Test XML"
                correction="Typo Correction in Test XML">
             <location file="test.tex" line="23"/>
         </error>
         <error id="typo-4" type="typo"
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Typo Message in Test XML"
                correction="Typo Correction in Test XML">
             <location file="test.tex" line="24"/>
         </error>
         <error id="typo-5" type="typo" 
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Typo Message in Test XML"
                correction="Typo Correction in Test XML">
             <location file="test.tex" line="25"/>
         </error>
         <error id="typo-6" type="typo"
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Typo Message in Test XML"
                correction="Typo Correction in Test XML">
             <location file="test.tex" line="26"/>
         </error>
         <error id="typo-7" type="typo" 
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Typo Message in Test XML"
                correction="Typo Correction in Test XML">
             <location file="test.tex" line="27"/>
         </error>
         <error id="typo-8" type="typo"
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Typo Message in Test XML"
                correction="Typo Correction in Test XML">
             <location file="test.tex" line="28"/>
         </error>
         <error id="spell-1" type="spell" 
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Spell Message in Test XML"
                correction="Spell Correction in Test XML">
             <location file="test.tex" line="29"/>
         </error>
         <error id="typo-9" type="typo"
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Typo Message in Test XML"
                correction="Typo Correction in Test XML">
             <location file="test.tex" line="31"/>
         </error>
         <error id="typo-10" type="typo"
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Typo Message in Test XML"
                correction="Typo Correction in Test XML">
             <location file="test.tex" line="32"/>
         </error>
         <error id="typo-11" type="typo"
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Typo Message in Test XML"
                correction="Typo Correction in Test XML">
             <location file="test.tex" line="33"/>
         </error>
         <error id="typo-12" type="typo"
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Typo Message in Test XML"
                correction="Typo Correction in Test XML">
             <location file="test.tex" line="35"/>
         </error>
         <error id="typo-13" type="typo"
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Typo Message in Test XML"
                correction="Typo Correction in Test XML">
             <location file="test.tex" line="38"/>
         </error>
         <error id="latex-1" type="latex"
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Latex Message in Test XML"
                correction="Latex Correction in Test XML">
             <location file="test.tex" line="1600"/>
         </error>
         <error id="latex-2" type="latex"
-               error="Typo Error in Test XML"
+               context="Context in Test XML"
                msg="Latex Message in Test XML"
                correction="Latex Correction in Test XML">
             <location file="test.tex" line="1600"/>

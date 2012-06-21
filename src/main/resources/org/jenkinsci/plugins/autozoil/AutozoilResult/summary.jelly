@@ -4,11 +4,11 @@
         <tr>
             <td class="pane-header">Filename</td>
             <td class="pane-header" style="width:2em">#</td>
-            <td class="pane-header" style="width:2em">Autozoil ID</td>
+            <td class="pane-header" style="width:2em">ID</td>
             <td class="pane-header" style="width:2em">Type</td>
-            <td class="pane-header" style="width:25%">Message</td>
-            <td class="pane-header" style="width:25%">Error</td>
+            <td class="pane-header" style="width:25%">Context</td>
             <td class="pane-header" style="width:25%">Correction</td>
+            <td class="pane-header" style="width:25%">Message</td>
         </tr>
         <tbody>
 
@@ -37,9 +37,9 @@
                     </td>
                     <g:format value="${autozoilfile.autoZoilId}" type="${autozoilfile.type}"/>
                     <g:format value="${autozoilfile.type}" type="${autozoilfile.type}"/>
-                    <g:format value="${autozoilfile.message}" type="${autozoilfile.type}"/>
-                    <g:format value="${autozoilfile.error}" type="${autozoilfile.type}"/>
+                    <g:format value="${autozoilfile.context}" type="${autozoilfile.type}"/>
                     <g:format value="${autozoilfile.correction}" type="${autozoilfile.type}"/>
+                    <g:format value="${autozoilfile.message}" type="${autozoilfile.type}"/>
                 </tr>
             </j:forEach>
 

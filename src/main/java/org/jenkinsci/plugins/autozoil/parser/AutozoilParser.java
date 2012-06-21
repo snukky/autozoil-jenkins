@@ -75,7 +75,7 @@ public class AutozoilParser implements Serializable {
                 autozoilFile.setAutoZoilId(error.getId());
                 autozoilFile.setType(error.getType());
                 autozoilFile.setMessage(error.getMsg());
-                autozoilFile.setError(error.getError());
+                autozoilFile.setContext(error.getContext());
                 autozoilFile.setCorrection(error.getCorrection());
 
                 if ("spell".equals(autozoilFile.getType())) {
