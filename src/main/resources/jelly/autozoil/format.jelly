@@ -10,12 +10,12 @@
         </j:if>
         <j:if test="${!(value==null) and !(value=='0')}">
             <j:if test="${type=='all'}">
-                <td class="pane">
+                <td class="pane" style="white-space:normal;">
                     <b>${value}</b>
                 </td>
             </j:if>
             <j:if test="${! (type=='all')}">
-                <td class="pane">${value}</td>
+                <td class="pane" style="white-space:normal;">${value}</td>
             </j:if>
         </j:if>
     </x:element>

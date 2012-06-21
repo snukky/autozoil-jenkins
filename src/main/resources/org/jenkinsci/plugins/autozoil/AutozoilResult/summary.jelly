@@ -15,7 +15,7 @@
             <j:forEach var="elt" items="${it.autozoilSourceContainer.internalMap.values()}">
                 <j:set var="autozoilfile" value="${elt.autozoilFile}"/>
                 <tr>
-                    <td class="pane">
+                    <td class="pane" style="white-space:normal;">
                         <j:if test="${elt.isSourceIgnored()}">
                             ${autozoilfile.fileName}
                         </j:if>
