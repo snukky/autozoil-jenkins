@@ -36,7 +36,8 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.*;
-import java.util.Set;
+import java.util.List;
+import java.util.HashMap;
 
 
 public class AutozoilSource implements Serializable {
@@ -68,7 +69,7 @@ public class AutozoilSource implements Serializable {
      */
     private final AutozoilWorkspaceFile autozoilWorkspaceFile;
 
-    private final Set<Integer> lineNumbersToHighlight;
+    private final HashMap<Integer, List<AutozoilFile> > lineNumberToAutozoilFilesMap;
 
     /**
      * The rendered source file.
@@ -84,15 +85,16 @@ public class AutozoilSource implements Serializable {
     public AutozoilSource(final AbstractBuild<?, ?> owner, AutozoilWorkspaceFile autozoilWorkspaceFile) {
         this.owner = owner;
         this.autozoilWorkspaceFile = autozoilWorkspaceFile;
-        this.lineNumbersToHighlight = null;
+        this.lineNumberToAutozoilFilesMap = null;
         buildFileContent();
     }
 
-    public AutozoilSource(final AbstractBuild<?, ?> owner, AutozoilWorkspaceFile autozoilWorkspaceFile, Set<Integer> lineNumbers) {
+    public AutozoilSource(final AbstractBuild<?, ?> owner, AutozoilWorkspaceFile autozoilWorkspaceFile, 
+        HashMap<Integer, List<AutozoilFile> > lineNumberToAutozoilFilesMap) {
+
         this.owner = owner;
         this.autozoilWorkspaceFile = autozoilWorkspaceFile;
-        this.lineNumbersToHighlight = lineNumbers;
-        this.lineNumbersToHighlight.remove(autozoilWorkspaceFile.getAutozoilFile().getLineNumber());
+        this.lineNumberToAutozoilFilesMap = lineNumberToAutozoilFilesMap;
 
         buildFileContent();
     }
@@ -140,7 +142,7 @@ public class AutozoilSource implements Serializable {
     private void splitSourceFile(final String sourceFile) {
         StringBuilder output = new StringBuilder(sourceFile.length());
 
-        AutozoilFile autozoilFile = autozoilWorkspaceFile.getAutozoilFile();
+        AutozoilFile baseAutozoilFile = autozoilWorkspaceFile.getAutozoilFile();
         LineIterator lineIterator = IOUtils.lineIterator(new StringReader(sourceFile));
         int lineNumber = 1;
 
@@ -155,45 +157,31 @@ public class AutozoilSource implements Serializable {
         //while (lineNumber < autozoilFile.getLineNumber()) {
         while (lineIterator.hasNext()) {
 
-            if (lineNumbersToHighlight.contains(lineNumber)) {
+            if (lineNumberToAutozoilFilesMap.keySet().contains(lineNumber)) {
                 output.append("</code>\n");
                 output.append("</td></tr>\n");
                 output.append("<tr><td bgcolor=\"");
-                appendRangeSecondaryColor(output);
+
+                if (lineNumber == baseAutozoilFile.getLineNumber()) {
+                    appendRangeColor(output);
+                }
+                else {
+                    appendRangeSecondaryColor(output);
+                }
                 output.append("\">\n");
-                output.append("<code><b>\n");
-                copyLine(output, lineIterator);
-                lineNumber++;
-                output.append("</td></tr>\n");
-                output.append("<tr><td>\n");
-                output.append("<code>\n");
-
-                continue;
-            }
-
-            if (lineNumber == autozoilFile.getLineNumber()) {
-                output.append("</code>\n");
-
-                //---Error message
-                output.append("</td></tr>\n");
-                output.append("<tr><td bgcolor=\"");
-                appendRangeColor(output);
-                output.append("\">\n");
-
+                
                 output.append("<div tooltip=\"");
-                outputEscaped(output, autozoilFile.getAutoZoilId() + ":" + autozoilFile.getMessage());
+                outputEscaped(output, conciseHintFromAutozoilFiles(lineNumberToAutozoilFilesMap.get(lineNumber)));
                 output.append("\" nodismiss=\"\">\n");
                 output.append("<code><b>\n");
 
-                //The current line error
                 copyLine(output, lineIterator);
                 lineNumber++;
 
-                //End of the code
                 output.append("</b></code>\n");
                 output.append("</div>\n");
                 output.append("</td></tr>\n");
-      
+
                 output.append("<tr><td>\n");
                 output.append("<code>\n");
 
@@ -209,6 +197,32 @@ public class AutozoilSource implements Serializable {
         sourceCode = output.toString();
     }
 
+
+    private String conciseHintFromAutozoilFiles(List<AutozoilFile> autozoilFiles) {
+        String hint = "";
+
+        for (AutozoilFile autozoilFile : autozoilFiles) {
+            hint += autozoilFile.getType() + " => " + autozoilFile.getAutoZoilId() + "<br/>";
+
+            if (autozoilFile.getContext() != null) {
+                hint += "&nbsp;&nbsp; context : ";
+                hint += autozoilFile.getContext();
+                hint += "<br/>";
+            }
+            if (autozoilFile.getCorrection() != null) {
+                hint += "&nbsp;&nbsp; correction : ";
+                hint += autozoilFile.getCorrection();
+                hint += "<br/>";
+            }
+            if (autozoilFile.getMessage() != null) {
+                hint += "&nbsp;&nbsp; message : ";
+                hint += autozoilFile.getMessage();
+                hint += "<br/>";
+            }
+        }
+
+        return hint;
+    }
 
     /**
      * Writes the message to the output stream (with escaped HTML).

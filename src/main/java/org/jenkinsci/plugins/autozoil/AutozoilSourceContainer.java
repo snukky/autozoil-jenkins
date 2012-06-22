@@ -9,8 +9,7 @@ import hudson.model.BuildListener;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -85,14 +84,21 @@ public class AutozoilSourceContainer {
         return internalMap;
     }
 
-    public Set<Integer> getAllLineNumbers() {
-        Set<Integer> allLineNumbers = new HashSet<Integer>();
+    public HashMap<Integer, List<AutozoilFile> > getLineNumberToAutozoilFilesMapWithoutOneWithKey(Integer keyToOmit) {
+        HashMap<Integer, List<AutozoilFile> > lineNumberToAutozoilFilesMap = new HashMap<Integer, List<AutozoilFile> >();
 
         for (AutozoilWorkspaceFile autozoilWorkspaceFile : internalMap.values()) {
-            allLineNumbers.add(autozoilWorkspaceFile.getAutozoilFile().getLineNumber());
+            Integer lineNumber = autozoilWorkspaceFile.getAutozoilFile().getLineNumber();
+
+            List<AutozoilFile> autozoilFiles = lineNumberToAutozoilFilesMap.get(lineNumber);
+            if (autozoilFiles == null) {
+              autozoilFiles = new ArrayList<AutozoilFile>();
+            }
+            autozoilFiles.add(autozoilWorkspaceFile.getAutozoilFile());
+            lineNumberToAutozoilFilesMap.put(lineNumber, autozoilFiles);
         }
 
-        return allLineNumbers;
+        return lineNumberToAutozoilFilesMap;
     }
 
 }

@@ -1,6 +1,7 @@
 package org.jenkinsci.plugins.autozoil;
 
 import org.jenkinsci.plugins.autozoil.AutozoilSource;
+import org.jenkinsci.plugins.autozoil.model.AutozoilFile;
 import org.jenkinsci.plugins.autozoil.model.AutozoilWorkspaceFile;
 import hudson.model.AbstractBuild;
 import hudson.model.Api;
@@ -14,7 +15,8 @@ import org.kohsuke.stapler.export.Exported;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Gregory Boissinot
@@ -89,15 +91,19 @@ public class AutozoilResult implements Serializable {
             }
 
             Map<Integer, AutozoilWorkspaceFile> agregateMap = autozoilSourceContainer.getInternalMap();
-            Set<Integer> allLineNumbersToHighlights = autozoilSourceContainer.getAllLineNumbers();
 
             if (agregateMap != null) {
-                AutozoilWorkspaceFile vAutozoilWorkspaceFile = agregateMap.get(Integer.parseInt(StringUtils.substringAfter(link, "source.")));
+                Integer key = Integer.parseInt(StringUtils.substringAfter(link, "source."));
+                AutozoilWorkspaceFile vAutozoilWorkspaceFile = agregateMap.get(key);
+
+                HashMap<Integer, List<AutozoilFile> > lineNumberToAutozoilFilesMap = 
+                    autozoilSourceContainer.getLineNumberToAutozoilFilesMapWithoutOneWithKey(key);
+
                 if (vAutozoilWorkspaceFile == null) {
                     throw new IllegalArgumentException("Error for retrieving the source file with link:" + link);
                 }
 
-                return new AutozoilSource(owner, vAutozoilWorkspaceFile, allLineNumbersToHighlights);
+                return new AutozoilSource(owner, vAutozoilWorkspaceFile, lineNumberToAutozoilFilesMap);
             }
         }
         return null;
