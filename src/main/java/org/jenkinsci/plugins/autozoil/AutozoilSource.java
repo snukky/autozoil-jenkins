@@ -49,15 +49,13 @@ public class AutozoilSource implements Serializable {
      */
     protected static final int SOURCE_GENERATOR_OFFSET = 13;
 
-    /**
-     * Color for the first (primary) annotation range.
-     */
+    // Color for the important message in lines.
     private static final String MESSAGE_COLOR = "#FF0000";
 
-    /**
-     * Secondary color for the rest of highlighted lines.
-     */
-    private static final String MESSAGE_SECONDARY_COLOR = "#FCAF3E";
+    // Color for the main higlighted line.
+    private static final String BACKGROUND_COLOR = "#FF8A8A";
+    // Secondary color for the rest of highlighted lines.
+    private static final String BACKGROUND_SECONDARY_COLOR = "#FCC587";
 
     /**
      * The current build as owner of this object.
@@ -175,7 +173,7 @@ public class AutozoilSource implements Serializable {
                 output.append("\" nodismiss=\"\">\n");
                 output.append("<code><b>\n");
 
-                copyLine(output, lineIterator);
+                copyLineWithHighlightedContext(output, lineIterator, MESSAGE_COLOR, lineNumberToAutozoilFilesMap.get(lineNumber));
                 lineNumber++;
 
                 output.append("</b></code>\n");
@@ -240,11 +238,11 @@ public class AutozoilSource implements Serializable {
      * @param output the output to append the color
      */
     private void appendRangeColor(final StringBuilder output) {
-        output.append(MESSAGE_COLOR);
+        output.append(BACKGROUND_COLOR);
     }
   
     private void appendRangeSecondaryColor(final StringBuilder output) {
-        output.append(MESSAGE_SECONDARY_COLOR);
+        output.append(BACKGROUND_SECONDARY_COLOR);
     }
 
     /**
@@ -258,6 +256,32 @@ public class AutozoilSource implements Serializable {
         output.append("\n");
     }
 
+    private void copyLineWithHighlightedContext(final StringBuilder output, 
+        final LineIterator lineIterator, String color, List<AutozoilFile> autozoilFiles
+    ) {
+        String line = lineIterator.nextLine();
+
+        for (AutozoilFile autozoilFile : autozoilFiles) {
+            String substringToSearch = autozoilFile.getContext();
+            if (substringToSearch == null) continue;
+
+            // It should escape all HTML-specific characters
+            substringToSearch = substringToSearch.replaceAll(" ", "&nbsp;");
+
+            //FIXME: substring is not found if it contains Polish diacritical signs
+            int pos = line.indexOf(substringToSearch);
+            if (pos == -1) continue;
+
+            line = line.substring(0, pos) 
+                + "<span style=\"color:#fff; padding:3px 3px 4px; background-color:" + color + "\">"
+                + line.substring(pos, pos + substringToSearch.length()) + "</span>"
+                + line.substring(pos + substringToSearch.length());
+        }
+
+        output.append(line);
+        output.append("\n");
+    }
+
     /**
      * Highlights the specified source and returns the result as an HTML string.
      *
@@ -266,19 +290,20 @@ public class AutozoilSource implements Serializable {
      * @throws IOException
      */
     public final String highlightSource(final InputStream file) throws IOException {
-
         JavaSource source = new JavaSourceParser().parse(new InputStreamReader(file));
         JavaSource2HTMLConverter converter = new JavaSource2HTMLConverter();
         StringWriter writer = new StringWriter();
+
         JavaSourceConversionOptions options = JavaSourceConversionOptions.getDefault();
         options.setShowLineNumbers(true);
         options.setAddLineAnchors(true);
+
         converter.convert(source, options, writer);
+
         return writer.toString();
     }
 
-
-    /**
+     /**
      * Retrieve the source code for the autozoil source file.
      *
      * @return the source code content as a String object
